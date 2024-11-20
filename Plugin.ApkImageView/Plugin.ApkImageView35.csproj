@@ -35,8 +35,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApkReader, Version=2.0.8.0, Culture=neutral, PublicKeyToken=a8ac5fc45c3adb8d, processorArchitecture=MSIL">
-      <HintPath>..\packages\AlphaOmega.ApkReader.2.0.8\lib\net20\ApkReader.dll</HintPath>
+    <Reference Include="ApkReader, Version=2.0.9.0, Culture=neutral, PublicKeyToken=a8ac5fc45c3adb8d">
+      <HintPath>..\packages\AlphaOmega.ApkReader.2.0.9\lib\net20\ApkReader.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
