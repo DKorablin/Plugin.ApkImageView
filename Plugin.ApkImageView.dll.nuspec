@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<metadata>
+		<id>AlphaOmega.SAL.Plugin.ApkImageView</id>
+		<version>0.0.0.0</version>
+		<authors>DKorablin</authors>
+		<license type="expression">Apache-1.0</license>
+		<readme>docs\README.md</readme>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<projectUrl>https://dkorablin.ru/project/Default.aspx?File=111</projectUrl>
+		<repository type="git" url="https://github.com/DKorablin/Plugin.ApkImageView" />
+		<description>As part of the project to read the contents of the APK file, several plugins were implemented to read commonly used file formats inside the APK archive. Total dismantled Android Package (.apk→.zip), Davlik (.dex), ELF (.so), JavaClass (.class), Android XML (ApplicationManifest.xml), Android Resources (.arsc).</description>
+		<releaseNotes></releaseNotes>
+		<copyright>Danila Korablin</copyright>
+		<tags>SAL,Plugin</tags>
+		<dependencies>
+			<group targetFramework="net20">
+				<dependency id="SAL.Flatbed" version="1.2.9" />
+				<dependency id="SAL.Windows" version="1.2.9" />
+				<dependency id="AlphaOmega.ApkReader" version="2.0.8" />
+			</group>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="readme.md" target="docs" />
+		<!--file src="bin\net20\Plugin.ApkImageView.xml" target="xml" /-->
+		<file src="bin\net20\Plugin.ApkImageView.dll" target="lib\net20" />
+	</files>
+</package>

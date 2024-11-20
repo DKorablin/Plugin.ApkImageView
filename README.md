@@ -1,0 +1,2 @@
+# APK (Android Package) Image Info Plugin
+As part of the project to read the contents of the APK file, several plugins were implemented to read commonly used file formats inside the APK archive. Total dismantled Android Package (.apk→.zip), Davlik (.dex), ELF (.so), JavaClass (.class), Android XML (ApplicationManifest.xml), Android Resources (.arsc).
