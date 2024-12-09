@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 #endif
 [assembly: AssemblyCompany("Danila Korablin")]
 [assembly: AssemblyProduct("Plugin.ApkImageView")]
-[assembly: AssemblyCopyright("Copyright © Danila Korablin 2016-2022")]
+[assembly: AssemblyCopyright("Copyright © Danila Korablin 2016-2024")]
 #endif
 
 /*
