@@ -8,6 +8,6 @@
 	<PropertyGroup>
 		<BaseOutputPath>..\..\bin\$(SolutionName)</BaseOutputPath>
 		<OutputPath>..\..\bin\$(SolutionName)</OutputPath>
-		<BaseIntermediateOutputPath>$(MSBuildProjectDirectory)\..\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+		<BaseIntermediateOutputPath>$(MSBuildProjectDirectory)\..\..\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
 	</PropertyGroup>
 </Project>
