@@ -54,17 +54,17 @@ namespace Plugin.ApkImageView
 				this.FillToc(file);
 			this.ChangeTitle();
 
-			this.Plugin.Binaries.PeListChanged += new EventHandler<PeListChangedEventArgs>(Plugin_PeListChanged);
-			this.Plugin.Packages.PeListChanged += new EventHandler<PeListChangedEventArgs>(Plugin_PeListChanged);
-			this.Plugin.Settings.PropertyChanged += Settings_PropertyChanged;
+			this.Plugin.Binaries.PeListChanged += new EventHandler<PeListChangedEventArgs>(this.Plugin_PeListChanged);
+			this.Plugin.Packages.PeListChanged += new EventHandler<PeListChangedEventArgs>(this.Plugin_PeListChanged);
+			this.Plugin.Settings.PropertyChanged += this.Settings_PropertyChanged;
 			base.OnCreateControl();
 		}
 
 		private void Window_Closing(Object sender, CancelEventArgs e)
 		{
-			this.Plugin.Binaries.PeListChanged -= new EventHandler<PeListChangedEventArgs>(Plugin_PeListChanged);
-			this.Plugin.Packages.PeListChanged -= new EventHandler<PeListChangedEventArgs>(Plugin_PeListChanged);
-			this.Plugin.Settings.PropertyChanged -= Settings_PropertyChanged;
+			this.Plugin.Binaries.PeListChanged -= new EventHandler<PeListChangedEventArgs>(this.Plugin_PeListChanged);
+			this.Plugin.Packages.PeListChanged -= new EventHandler<PeListChangedEventArgs>(this.Plugin_PeListChanged);
+			this.Plugin.Settings.PropertyChanged -= this.Settings_PropertyChanged;
 		}
 
 		/// <summary>Изменить заголовок окна</summary>
@@ -139,7 +139,7 @@ namespace Plugin.ApkImageView
 			if(node == null || node.IsNull())
 				return;
 
-			if(this.Plugin.BinaryViewers.TryGetValue(node.NodeType, out Type wnd))
+			if(PluginWindows.BinaryViewers.TryGetValue(node.NodeType, out Type wnd))
 				this.Plugin.HostWindows.Windows.CreateWindow(this.Plugin,
 					wnd.ToString(),
 					true,
@@ -152,7 +152,7 @@ namespace Plugin.ApkImageView
 			if(node == null || node.IsNull())
 				return;
 
-			if(this.Plugin.DirectoryViewers.TryGetValue(node.NodeType, out Type wnd))
+			if(PluginWindows.DirectoryViewers.TryGetValue(node.NodeType, out Type wnd))
 				this.Plugin.HostWindows.Windows.CreateWindow(this.Plugin,
 					wnd.ToString(),
 					true,
@@ -210,7 +210,7 @@ namespace Plugin.ApkImageView
 			{
 				tsmiTocUnload.Visible = tsmiTocExplorerView.Visible = showUnload = node.Parent == null;//PE File
 
-				if(!node.IsNull() && this.Plugin.BinaryViewers.ContainsKey(node.NodeType))
+				if(!node.IsNull() && PluginWindows.BinaryViewers.ContainsKey(node.NodeType))
 					tsmiTocBinView.Visible = showBinView = true;
 			}
 
@@ -248,7 +248,7 @@ namespace Plugin.ApkImageView
 			TreeNodePackage node = e.Node as TreeNodePackage;
 			if(node == null)//Exception node
 				lvInfo.DataBind(e.Node.Tag);
-			else if(node.IsFile && node.Parent == null)//Описание файла
+			else if(node.IsFile && node.Parent == null)//File description
 				lvInfo.DataBind(new FileInfo(node.Path[0]));
 			else
 			{
@@ -258,7 +258,7 @@ namespace Plugin.ApkImageView
 					{
 					case SectionNodeType.Header:
 					case SectionNodeType.MapList:
-					case SectionNodeType.Sections://Директория DEX файла
+					case SectionNodeType.Sections://DEX file directory
 						base.Cursor = Cursors.WaitCursor;
 
 						Object section = this.Plugin.GetNodeDataRecursive(node.Path);
@@ -285,7 +285,7 @@ namespace Plugin.ApkImageView
 						lvInfo.DataBind(resource.ResourceMap);
 						break;
 					default:
-						lvInfo.DataBind(node.Tag);//Generic объект
+						lvInfo.DataBind(node.Tag);//Generic object
 						break;
 					}
 				} finally
@@ -383,7 +383,6 @@ namespace Plugin.ApkImageView
 				{
 					e.Node.Nodes[0].SetException(exc);
 					e.Node.Nodes[0].Tag = exc;
-					return;
 				}
 			}
 		}

@@ -6,14 +6,25 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1899FF81-D71E-494E-A8C8-5175FE32CE44}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		.github\dependabot.yml = .github\dependabot.yml
-		Plugin.ApkImageView.dll.nuspec = Plugin.ApkImageView.dll.nuspec
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.ApkImageView", "Plugin.ApkImageView\Plugin.ApkImageView.csproj", "{A84BEE3B-FD4A-DA34-6F21-143C1D8F4015}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 		.github\workflows\test.yml = .github\workflows\test.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.ApkImageView35", "Plugin.ApkImageView\Plugin.ApkImageView35.csproj", "{A75FCEE6-5D22-4453-9987-00CB3463CE95}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{63CB54CA-BAC0-4373-AA86-893AEDC02D86}"
+	ProjectSection(SolutionItems) = preProject
+		.github\scripts\Build-ReleasePackage.ps1 = .github\scripts\Build-ReleasePackage.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,13 +32,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A75FCEE6-5D22-4453-9987-00CB3463CE95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A75FCEE6-5D22-4453-9987-00CB3463CE95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A75FCEE6-5D22-4453-9987-00CB3463CE95}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A75FCEE6-5D22-4453-9987-00CB3463CE95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A84BEE3B-FD4A-DA34-6F21-143C1D8F4015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A84BEE3B-FD4A-DA34-6F21-143C1D8F4015}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A84BEE3B-FD4A-DA34-6F21-143C1D8F4015}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A84BEE3B-FD4A-DA34-6F21-143C1D8F4015}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {1899FF81-D71E-494E-A8C8-5175FE32CE44}
+		{63CB54CA-BAC0-4373-AA86-893AEDC02D86} = {1899FF81-D71E-494E-A8C8-5175FE32CE44}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8800BC78-9218-4B91-8C8B-043270C87C07}

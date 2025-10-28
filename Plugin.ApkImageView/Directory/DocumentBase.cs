@@ -16,7 +16,7 @@ namespace Plugin.ApkImageView.Directory
 		protected PluginWindows Plugin => (PluginWindows)this.Window.Plugin;
 		protected IWindow Window => (IWindow)base.Parent;
 
-		/// <summary>Путь к открытому файлу в текущем документе</summary>
+		/// <summary>Path to the open file in the current document</summary>
 		internal String[] FilePath => this.Settings.FilePath;
 
 		Object IPluginSettings.Settings => this.Settings;
@@ -27,7 +27,7 @@ namespace Plugin.ApkImageView.Directory
 		protected virtual void SetCaption()
 			=> this.Window.Caption = String.Join(" - ", new String[] { Constant.CreatePathKey(this.Settings.FilePath), Constant.GetHeaderName(this._peType), });
 
-		public DocumentBase(SectionNodeType type)
+		protected DocumentBase(SectionNodeType type)
 		{
 			this._peType = type;
 			this.InitializeComponent();
@@ -88,8 +88,8 @@ namespace Plugin.ApkImageView.Directory
 			}
 		}
 
-		/// <summary>Открыть файл, если его открывает окно, скажем, через Drag'n'Drop</summary>
-		/// <param name="filePath">Путь к файлу для открытия</param>
+		/// <summary>Open a file if a window opens it, say, via Drag'n'Drop</summary>
+		/// <param name="filePath">Path to the file to open</param>
 		protected void OpenFile(String filePath)
 		{
 			if(this.FilePath != null && this.FilePath[0].Equals(filePath, StringComparison.OrdinalIgnoreCase))
@@ -116,20 +116,20 @@ namespace Plugin.ApkImageView.Directory
 			Object dex = this.GetFile();
 			if(dex != null)
 			{
-				this.Plugin.Binaries.OpenFile(this.FilePath[0]);//Файл открыт. Необходимо обновить список открытых файлов (При необходимости)
+				this.Plugin.Binaries.OpenFile(this.FilePath[0]);//The file is open. The list of open files needs to be refreshed (if necessary).
 
 				this.SetCaption();
 				this.ShowFile(dex);
 			}
 		}
 
-		/// <summary>Получить информацию о открытом файле</summary>
-		/// <returns>Корневая директория описателя PE файла</returns>
+		/// <summary>Get information about an open file</summary>
+		/// <returns>The root directory of the PE file handle</returns>
 		protected Object GetFile()
 			=> this.Plugin.GetNodeDataRecursive(this.FilePath);
 
-		/// <summary>Отобразить файл в окне</summary>
-		/// <param name="info">Информация о файле</param>
+		/// <summary>Display file in window</summary>
+		/// <param name="info">File information</param>
 		protected abstract void ShowFile(Object node);
 	}
 }

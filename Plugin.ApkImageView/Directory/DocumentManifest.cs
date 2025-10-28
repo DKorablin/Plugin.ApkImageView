@@ -10,7 +10,7 @@ namespace Plugin.ApkImageView.Directory
 	{
 		public DocumentManifest()
 			: base(SectionNodeType.ApkManifest)
-			=> InitializeComponent();
+			=> this.InitializeComponent();
 
 		protected override void ShowFile(Object node)
 		{
@@ -46,13 +46,8 @@ namespace Plugin.ApkImageView.Directory
 							this.FillNodeRecursive(childNode, node);
 							parentNode.Nodes.Add(childNode);
 						}
-					} else if(method.ReturnType.BaseType == typeof(ApkNode))
-					{
-						ApkNode node = (ApkNode)method.Invoke(parent, null);
-						TreeNode childNode = new TreeNode(node.Node.NodeName) { Tag = node };
-						this.FillNodeRecursive(childNode, node);
-						parentNode.Nodes.Add(childNode);
-					} else if(DocumentManifest.IsGenericType(method.ReturnType.BaseType, typeof(ApkNodeT<>)))
+					} else if(method.ReturnType.BaseType == typeof(ApkNode)
+						|| DocumentManifest.IsGenericType(method.ReturnType.BaseType, typeof(ApkNodeT<>)))
 					{
 						ApkNode node = (ApkNode)method.Invoke(parent, null);
 						TreeNode childNode = new TreeNode(node.Node.NodeName) { Tag = node };

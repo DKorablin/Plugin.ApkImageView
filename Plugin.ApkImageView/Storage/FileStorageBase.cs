@@ -18,7 +18,7 @@ namespace Plugin.ApkImageView.Storage
 
 		public event EventHandler<PeListChangedEventArgs> PeListChanged;
 
-		internal FileStorageBase(PluginWindows plugin)
+		private protected FileStorageBase(PluginWindows plugin)
 		{
 			this._plugin = plugin ?? throw new ArgumentNullException(nameof(plugin));
 			this._plugin.Settings.PropertyChanged += this.Settings_PropertyChanged;
@@ -28,22 +28,22 @@ namespace Plugin.ApkImageView.Storage
 
 		protected abstract T LoadFileMemory(String source, Byte[] payload);
 
-		/// <summary>Проверка на наличия файла в загруженных бинарниках</summary>
-		/// <param name="filePath">Ключ файла для поиска</param>
+		/// <summary>Check if the file exists among loaded binaries</summary>
+		/// <param name="filePath">File key for search</param>
 		/// <returns></returns>
 		public Boolean Contains(String filePath)
 			=> this._binaries.ContainsKey(filePath);
 
-		/// <summary>Получить информацию по PE файлу. Если файл не открыт, то открыть его</summary>
-		/// <param name="filePath">Путь к файлу, информацию по которому необходимо почитать</param>
-		/// <returns>Информация по PE/COFF файлу или null</returns>
+		/// <summary>Get information about the PE file. If the file is not open, open it</summary>
+		/// <param name="filePath">Path to the file to read information for</param>
+		/// <returns>Information about the PE/COFF file or null</returns>
 		public T LoadFile(String filePath)
 			=> this.LoadFile(filePath, false);
 
-		/// <summary>Получить информацию по бинарнику из файловой системы</summary>
-		/// <param name="filePath">Путь к файлу, информацию по которому необходимо почитать</param>
-		/// <param name="noLoad">Поискать файл в уже подгруженных файлах и если такой файл не найден не загружать</param>
-		/// <returns>Информация по PE/COFF файлу или null</returns>
+		/// <summary>Get information about a binary from the file system</summary>
+		/// <param name="filePath">Path to the file to read information for</param>
+		/// <param name="noLoad">Search the file among already loaded ones and if not found do not load it</param>
+		/// <returns>Information about the PE/COFF file or null</returns>
 		public T LoadFile(String filePath, Boolean noLoad)
 		{
 			if(String.IsNullOrEmpty(filePath))
@@ -52,12 +52,12 @@ namespace Plugin.ApkImageView.Storage
 			if(this._binaries.TryGetValue(filePath, out T result))
 				return result;
 			else if(noLoad)
-				return null;//Загрузка не нужна, достаточно проверить наличие файла в хранилище
+				return null;//Loading is not required, it is enough to check for file presence in storage
 
 			if(result == null)
 			{
 				if(!File.Exists(filePath))
-					return null;//Если файл был загружен через память, то на ФС его не найти
+					return null;//If the file was loaded from memory, it cannot be found on the FS
 
 				lock(this._binLock)
 				{
@@ -66,7 +66,7 @@ namespace Plugin.ApkImageView.Storage
 					{
 						result = this.LoadFilePath(filePath);
 						this._binaries.Add(filePath, result);
-						if(!this._binaryWatcher.ContainsKey(filePath)//При обновлении файла удаляется только файл, а не его монитор
+						if(!this._binaryWatcher.ContainsKey(filePath)//When updating the file only the file is removed, not its monitor
 							&& this._plugin.Settings.MonitorFileChange)
 							this.RegisterFileWatcher(filePath);
 					}
@@ -75,9 +75,9 @@ namespace Plugin.ApkImageView.Storage
 			return result;
 		}
 
-		/// <summary>Получить информацию по бинарнику из памяти</summary>
-		/// <param name="key">Уникальный ключ</param>
-		/// <param name="memFile">Бинарник из памяти</param>
+		/// <summary>Get information about a binary from memory</summary>
+		/// <param name="key">Unique key</param>
+		/// <param name="memFile">Binary from memory</param>
 		/// <returns></returns>
 		public T LoadFile(String key, Byte[] memFile)
 		{
@@ -101,8 +101,8 @@ namespace Plugin.ApkImageView.Storage
 			}
 		}
 
-		/// <summary>Добавить файл из памяти в список открытых файлов</summary>
-		/// <param name="memFile">Файл из памяти</param>
+		/// <summary>Add a file from memory to the list of open files</summary>
+		/// <param name="memFile">File from memory</param>
 		public void OpenFile(String key, Byte[] memFile)
 		{
 			if(memFile == null || memFile.Length == 0)
@@ -127,8 +127,8 @@ namespace Plugin.ApkImageView.Storage
 			this.OnPeListChanged(PeListChangeType.Added, key);
 		}
 
-		/// <summary>Закрыть ранее открытый файл</summary>
-		/// <param name="filePath">Путь к файлу для закрывания</param>
+		/// <summary>Close a previously opened file</summary>
+		/// <param name="filePath">Path to the file to close</param>
 		private void UnloadFile(String filePath)
 		{
 			if(String.IsNullOrEmpty(filePath))
@@ -148,7 +148,7 @@ namespace Plugin.ApkImageView.Storage
 					if(ctrl != null && Constant.CreatePathKey(ctrl.FilePath).StartsWith(filePath))
 						wnd.Close();
 				}
-				if(filePath.StartsWith(Constant.BinaryFile))//Бинарный файл удаляется сразу из списка после закрытия
+				if(filePath.StartsWith(Constant.BinaryFile))//The binary file is removed from the list immediately after closing
 					this.OnPeListChanged(PeListChangeType.Removed, filePath);
 			} finally
 			{
@@ -191,14 +191,14 @@ namespace Plugin.ApkImageView.Storage
 			}
 		}
 
-		/// <summary>Добавить файл в список открытых файлов</summary>
-		/// <param name="filePath">Путь к файлу</param>
+		/// <summary>Add a file to the list of open files</summary>
+		/// <param name="filePath">Path to the file</param>
 		public Boolean OpenFile(String filePath)
 		{
 			if(String.IsNullOrEmpty(filePath))
 				throw new ArgumentNullException(nameof(filePath));
 			if(filePath.StartsWith(Constant.BinaryFile))
-				return false;//Это необходимо для отсечки файлов, которые были загружены через память
+				return false;//This is necessary to filter out files that were loaded from memory
 
 			String[] loadedFiles = this._plugin.Settings.LoadedFiles;
 			if(loadedFiles.Contains(filePath))
@@ -226,7 +226,7 @@ namespace Plugin.ApkImageView.Storage
 			String[] loadedFiles = this._plugin.Settings.LoadedFiles;
 			List<String> files = new List<String>(loadedFiles);
 			if(files.Remove(filePath))
-			{//Если это файл из памяти, то его нет в списке файлов
+			{//If this is a file from memory, then it is not in the file list
 				this._plugin.Settings.LoadedFiles = files.ToArray();
 				this._plugin.HostWindows.Plugins.Settings(this._plugin).SaveAssemblyParameters();
 				this.OnPeListChanged(PeListChangeType.Removed, filePath);
@@ -250,9 +250,9 @@ namespace Plugin.ApkImageView.Storage
 			}
 		}
 
-		/// <summary>Изменился список загруженных файлов</summary>
-		/// <param name="type">Тип изменения</param>
-		/// <param name="filePath">Путь к файлу, на которм произошло изменение</param>
+		/// <summary>The list of loaded files has changed</summary>
+		/// <param name="type">Type of change</param>
+		/// <param name="filePath">Path to the file on which the change occurred</param>
 		private void OnPeListChanged(PeListChangeType type, String filePath)
 			=> this.PeListChanged?.Invoke(this, new PeListChangedEventArgs(type, filePath));
 
@@ -299,7 +299,7 @@ namespace Plugin.ApkImageView.Storage
 
 					do
 					{
-						if(info.Exists == false)
+						if(!info.Exists)
 							goto case WatcherChangeTypes.Deleted;
 
 						try
@@ -338,9 +338,9 @@ namespace Plugin.ApkImageView.Storage
 			}
 		}
 
-		/// <summary>Получить уникальное наименование бинарного файла</summary>
-		/// <param name="index">Индекс, если файл с таким наименованием уже загружен</param>
-		/// <returns>Уникальное наименование файла</returns>
+		/// <summary>Get a unique name for the binary file</summary>
+		/// <param name="index">Index if a file with such name is already loaded</param>
+		/// <returns>Unique file name</returns>
 		private String GetBinaryUniqueName(UInt32 index)
 		{
 			String indexName = index > 0

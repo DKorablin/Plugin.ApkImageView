@@ -11,7 +11,7 @@ namespace Plugin.ApkImageView.Directory
 	{
 		public DocumentResource()
 			: base(SectionNodeType.Resource)
-			=> InitializeComponent();
+			=> this.InitializeComponent();
 
 		protected override void ShowFile(Object node)
 		{

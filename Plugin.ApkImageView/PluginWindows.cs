@@ -32,10 +32,10 @@ namespace Plugin.ApkImageView
 		private IMenuItem MenuPeInfo { get; set; }
 		private IMenuItem MenuWinApi { get; set; }
 
-		/// <summary>Настройки для взаимодействия из хоста</summary>
+		/// <summary>Settings for interaction from the host</summary>
 		Object IPluginSettings.Settings => this.Settings;
 
-		/// <summary>Настройки для взаимодействия из плагина</summary>
+		/// <summary>Settings for interaction from the plugin</summary>
 		public PluginSettings Settings
 		{
 			get
@@ -51,7 +51,7 @@ namespace Plugin.ApkImageView
 
 		internal IHostWindows HostWindows { get; }
 
-		/// <summary>Хранилище открытых Dex файлов</summary>
+		/// <summary>Storage of open Dex files</summary>
 		internal DexStorage Binaries
 		{
 			get
@@ -64,7 +64,7 @@ namespace Plugin.ApkImageView
 			}
 		}
 
-		/// <summary>Хранилище открытых apk файлов</summary>
+		/// <summary>Storage of open APK files</summary>
 		internal ApkStorage Packages
 		{
 			get
@@ -89,35 +89,29 @@ namespace Plugin.ApkImageView
 			}
 		}
 
-		internal Dictionary<SectionNodeType, Type> DirectoryViewers
+		internal static Dictionary<SectionNodeType, Type> DirectoryViewers
 		{
-			get
-			{
-				return new Dictionary<SectionNodeType, Type>
+			get => new Dictionary<SectionNodeType, Type>
 				{
 					{ SectionNodeType.Sections, typeof(DocumentTables) },
 					{ SectionNodeType.ApkManifest, typeof(DocumentManifest) },
 					{ SectionNodeType.Resource, typeof(DocumentResource) },
 				};
-			}
 		}
 
-		internal Dictionary<SectionNodeType, Type> BinaryViewers
+		internal static Dictionary<SectionNodeType, Type> BinaryViewers
 		{
-			get
-			{
-				return new Dictionary<SectionNodeType, Type>
+			get => new Dictionary<SectionNodeType, Type>
 				{
 					{ SectionNodeType.Resource, typeof(DocumentBinary) },
 					{ SectionNodeType.Manifest, typeof(DocumentBinary) },
 				};
-			}
 		}
 
 		private Dictionary<String, DockState> DocumentTypes
 		{
 			get
-			{//TODO: Список поддерживаемых окон
+			{//TODO: List of supported windows
 				if(this._documentTypes == null)
 					this._documentTypes = new Dictionary<String, DockState>()
 					{
@@ -156,7 +150,7 @@ namespace Plugin.ApkImageView
 		public String[] GetSearchObjects(String folderPath)
 		{
 			List<String> result = new List<String>();
-			foreach(String file in System.IO.Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories))//TODO: При переходе на .NET 4 переделать на Directory.EnumerateFiles
+			foreach(String file in System.IO.Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories))//TODO: When migrating to .NET 4, change to Directory.EnumerateFiles
 				if(Path.GetExtension(file).Equals(".dex", StringComparison.OrdinalIgnoreCase))
 					result.Add(file);
 			return result.ToArray();
@@ -239,8 +233,7 @@ namespace Plugin.ApkImageView
 			if(this.MenuWinApi != null && this.MenuWinApi.Items.Count == 0)
 				this.HostWindows.MainMenu.Items.Remove(this.MenuWinApi);
 
-			if(NodeExtender._nullFont != null)
-				NodeExtender._nullFont.Dispose();
+			NodeExtender.DisposeFonts();
 
 			if(this._binaries != null)
 				this._binaries.Dispose();
@@ -360,9 +353,8 @@ namespace Plugin.ApkImageView
 						result = File.ReadAllBytes(pathKey);
 						break;
 					}
-				} else if(result is ApkFile)
+				} else if(result is ApkFile zip)
 				{
-					ApkFile zip = (ApkFile)result;
 					Byte[] payload = zip.GetFile(path[loop]);
 
 					SectionNodeType node = Constant.GetSectionTypeByExtension(path[loop]);
@@ -384,9 +376,8 @@ namespace Plugin.ApkImageView
 						result = payload;
 						break;
 					}
-				} else if(result is DexFile)
+				} else if(result is DexFile dex)
 				{
-					DexFile dex = (DexFile)result;
 					SectionNodeType node = Constant.GetSectionTypeByExtension(path[loop]);
 					switch(node)
 					{

@@ -35,6 +35,13 @@ namespace Plugin.ApkImageView.Bll
 			return type;
 		}
 
+		public static IEnumerable<MemberInfo> GetSearchableMembers(this Type type)
+		{
+			foreach(MemberInfo member in type.GetMembers())
+				if(type.IsMemberSearchable(member))
+					yield return member;
+		}
+
 		private static Boolean IsMemberSearchable(this Type type, FieldInfo field)
 			=> true;
 
@@ -54,13 +61,6 @@ namespace Plugin.ApkImageView.Bll
 						return false;
 			}
 			return result;
-		}
-
-		public static IEnumerable<MemberInfo> GetSearchableMembers(this Type type)
-		{
-			foreach(MemberInfo member in type.GetMembers())
-				if(type.IsMemberSearchable(member))
-					yield return member;
 		}
 
 		private static Boolean IsMemberSearchable(this Type type, MemberInfo member)

@@ -7,14 +7,14 @@ namespace Plugin.ApkImageView
 	/// <summary>Shell extensions to open file in the Explorer window</summary>
 	internal static class Shell32
 	{
-		/// <summary>Try to find opened window or open new exporer window and select required file</summary>
-		/// <param name="filePath">Path to file to show in explrer window</param>
+		/// <summary>Try to find opened window or open new explorer window and select required file</summary>
+		/// <param name="filePath">Path to file to show in explorer window</param>
 		public static void OpenFolderAndSelectItem(String filePath)
 			=> Shell32.OpenFolderAndSelectItem(Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
 
-		/// <summary>Try to find opened window or open new exporer window and select required file</summary>
+		/// <summary>Try to find opened window or open new explorer window and select required file</summary>
 		/// <param name="folderPath">Path to directory</param>
-		/// <param name="fileName">Path to file to show in explrer window</param>
+		/// <param name="fileName">Path to file to show in explorer window</param>
 		public static void OpenFolderAndSelectItem(String folderPath, String fileName)
 		{
 			NativeMethods.SHParseDisplayName(folderPath, IntPtr.Zero, out IntPtr nativeFolder, 0, out _);

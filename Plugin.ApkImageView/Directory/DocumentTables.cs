@@ -32,14 +32,14 @@ namespace Plugin.ApkImageView.Directory
 			tvHierarchy.Nodes.AddRange(new TreeNode[] { this._rootNode, });
 		}
 
-		protected override void ShowFile(Object info)
+		protected override void ShowFile(Object node)
 		{
 			lvHeaps.Plugin = base.Plugin;
 			Boolean isDirty = this._rootNode.Nodes.Count > 0;
-			DexFile dex = (DexFile)info;
+			DexFile dex = (DexFile)node;
 
 			foreach(ITable table in dex.GetSectionTables())
-				this.GetAddTreeNode(this._rootNode, table);
+				this.AddTreeNode(this._rootNode, table);
 
 			if(!isDirty)
 				this._rootNode.Expand();
@@ -47,7 +47,7 @@ namespace Plugin.ApkImageView.Directory
 				this.tvHierarchy_AfterSelect(null, new TreeViewEventArgs(tvHierarchy.SelectedNode));
 		}
 
-		private TreeNode GetAddTreeNode(TreeNode root, ITable table)
+		private void AddTreeNode(TreeNode root, ITable table)
 		{
 			TreeNode node = this.FindTreeNode(root, table.Type);
 			if(node == null)
@@ -59,8 +59,6 @@ namespace Plugin.ApkImageView.Directory
 			node.Text = $"{table.Type} ({table.RowsCount:n0})";
 			if(table.RowsCount == 0)
 				node.SetNull();
-
-			return node;
 		}
 
 		private void ContextMenuStrip_Opening(Object sender, CancelEventArgs e)
@@ -80,7 +78,7 @@ namespace Plugin.ApkImageView.Directory
 						if(cellEnum?.GetType().IsBclType() == true)
 							continue;//Отсекаю System.String
 
-						if(cell is IRowPointer rowPointer)
+						if(cell is IRowPointer)
 						{
 							this._menuItemGoTo.DropDownItems.Add(new ToolStripMenuItem(item.SubItems[column.Index].Text) { Tag = column.Index, });
 							showGoTo = true;

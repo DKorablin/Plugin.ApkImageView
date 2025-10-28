@@ -2,14 +2,12 @@
 using System.ComponentModel.Design;
 using System.IO;
 using System.Windows.Forms;
-using AlphaOmega.Debug;
-using AlphaOmega.Debug.Manifest;
 
 namespace Plugin.ApkImageView.Directory
 {
 	public partial class DocumentBinary : DocumentBase
 	{
-		internal static DisplayMode[] DisplayModes = (DisplayMode[])Enum.GetValues(typeof(DisplayMode));
+		internal static readonly DisplayMode[] DisplayModes = (DisplayMode[])Enum.GetValues(typeof(DisplayMode));
 
 		public DocumentBinary()
 			: base(SectionNodeType.Sections)
