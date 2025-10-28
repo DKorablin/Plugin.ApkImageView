@@ -101,32 +101,6 @@ namespace Plugin.ApkImageView.Storage
 			}
 		}
 
-		/// <summary>Add a file from memory to the list of open files</summary>
-		/// <param name="memFile">File from memory</param>
-		public void OpenFile(String key, Byte[] memFile)
-		{
-			if(memFile == null || memFile.Length == 0)
-				throw new ArgumentNullException(nameof(memFile));
-
-			if(key != null && this._binaries.TryGetValue(key, out _))
-				return;
-
-			lock(this._binLock)
-			{
-				if(key == null)
-					key = this.GetBinaryUniqueName(0);
-
-				if(this._binaries.TryGetValue(key, out T info))
-					return;
-				else
-				{
-					info = this.LoadFileMemory(key, memFile);
-					this._binaries.Add(key, info);
-				}
-			}
-			this.OnPeListChanged(PeListChangeType.Added, key);
-		}
-
 		/// <summary>Close a previously opened file</summary>
 		/// <param name="filePath">Path to the file to close</param>
 		private void UnloadFile(String filePath)
@@ -189,6 +163,32 @@ namespace Plugin.ApkImageView.Storage
 				watcher.Dispose();
 				this._binaryWatcher.Remove(filePath);
 			}
+		}
+
+		/// <summary>Add a file from memory to the list of open files</summary>
+		/// <param name="memFile">File from memory</param>
+		public void OpenFile(String key, Byte[] memFile)
+		{
+			if(memFile == null || memFile.Length == 0)
+				throw new ArgumentNullException(nameof(memFile));
+
+			if(key != null && this._binaries.TryGetValue(key, out _))
+				return;
+
+			lock(this._binLock)
+			{
+				if(key == null)
+					key = this.GetBinaryUniqueName(0);
+
+				if(this._binaries.TryGetValue(key, out T info))
+					return;
+				else
+				{
+					info = this.LoadFileMemory(key, memFile);
+					this._binaries.Add(key, info);
+				}
+			}
+			this.OnPeListChanged(PeListChangeType.Added, key);
 		}
 
 		/// <summary>Add a file to the list of open files</summary>
