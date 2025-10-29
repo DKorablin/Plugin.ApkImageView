@@ -26,17 +26,19 @@
 		<PackageTags>SAL;plugin;windows;Android;APK;Reader;</PackageTags>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Compile Include="..\WinForms.Shared\ContextMenuStripCopy.cs" Link="Controls\ContextMenuStripCopy.cs" />
-	  <Compile Include="..\WinForms.Shared\HexLoadDlg\HexLoadDlg.cs" Link="Controls\HexLoadDlg.cs" />
-	  <Compile Include="..\WinForms.Shared\HexLoadDlg\HexLoadDlg.Designer.cs" Link="Controls\HexLoadDlg.Designer.cs" />
-	  <Compile Include="..\WinForms.Shared\SearchGrid\SearchGrid.cs" Link="Controls\SearchGrid.cs" />
-	  <Compile Include="..\WinForms.Shared\SearchGrid\SearchGrid.Designer.cs" Link="Controls\SearchGrid.Designer.cs" />
-	  <Compile Include="..\WinForms.Shared\SortableListView.cs" Link="Controls\SortableListView.cs" />
-	  <Compile Include="..\WinForms.Shared\SystemImageList.cs" Link="Controls\SystemImageList.cs" />
+		<Compile Include="..\WinForms.Shared\ContextMenuStripCopy.cs" Link="Controls\ContextMenuStripCopy.cs" />
+		<Compile Include="..\WinForms.Shared\HexLoadDlg\HexLoadDlg.cs" Link="Controls\HexLoadDlg.cs" />
+		<Compile Include="..\WinForms.Shared\HexLoadDlg\HexLoadDlg.Designer.cs" Link="Controls\HexLoadDlg.Designer.cs" />
+		<Compile Include="..\WinForms.Shared\SearchGrid\SearchGrid.cs" Link="Controls\SearchGrid.cs" />
+		<Compile Include="..\WinForms.Shared\SearchGrid\SearchGrid.Designer.cs" Link="Controls\SearchGrid.Designer.cs" />
+		<Compile Include="..\WinForms.Shared\SortableListView.cs" Link="Controls\SortableListView.cs" />
+		<Compile Include="..\WinForms.Shared\SystemImageList.cs" Link="Controls\SystemImageList.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <EmbeddedResource Include="..\WinForms.Shared\HexLoadDlg\HexLoadDlg.resx" Link="Controls\HexLoadDlg.resx" />
-	  <EmbeddedResource Include="..\WinForms.Shared\SearchGrid\SearchGrid.resx" Link="Controls\SearchGrid.resx" />
+		<EmbeddedResource Include="..\WinForms.Shared\HexLoadDlg\HexLoadDlg.resx" Link="Controls\HexLoadDlg.resx" />
+		<EmbeddedResource Include="..\WinForms.Shared\SearchGrid\SearchGrid.resx" Link="Source\SearchGrid.resx">
+			<LogicalName>AlphaOmega.Windows.Forms.SearchGrid.resources</LogicalName>
+		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
