@@ -6,7 +6,7 @@
 		<PackageVersion Include="SAL.Windows" Version="1.2.11">
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</PackageVersion>
-		<PackageVersion Include="AlphaOmega.ApkReader" Version="2.0.9"/>
+		<PackageVersion Include="AlphaOmega.ApkReader" Version="2.0.10"/>
 		<!--Analyzers-->
 		<GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="10.8.0.113526">
 			<PrivateAssets>All</PrivateAssets>
