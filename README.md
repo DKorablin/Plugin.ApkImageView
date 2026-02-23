@@ -1,6 +1,7 @@
 # APK (Android Package) Content Viewer Plugin
-
 [![Auto build](https://github.com/DKorablin/Plugin.ApkImageView/actions/workflows/release.yml/badge.svg)](https://github.com/DKorablin/Plugin.ApkImageView/actions)
+
+[![UI Screenshot](.github/assets/UI-1-200.png)](.github/assets/UI-1.png)
 
 ## Overview
 
@@ -42,4 +43,4 @@ To install the APK Content Viewer Plugin, follow these steps:
 3. Use the provided [Flatbed.Dialog (Lite)](https://dkorablin.github.io/Flatbed-Dialog-Lite) executable or download one of the supported host applications:
 	- [Flatbed.Dialog](https://dkorablin.github.io/Flatbed-Dialog)
 	- [Flatbed.MDI](https://dkorablin.github.io/Flatbed-MDI)
-	- [Flatbed.MDI (Avalon)](https://dkorablin.github.io/Flatbed-MDI-Avalon)
+	- [Flatbed.MDI (WPF)](https://dkorablin.github.io/Flatbed-MDI-Avalon)
