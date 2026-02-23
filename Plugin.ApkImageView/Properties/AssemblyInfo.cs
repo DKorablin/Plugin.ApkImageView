@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 [assembly: System.CLSCompliant(false)]
 
 [assembly: AssemblyDescription("Android (.APK) Package viewer")]
-[assembly: AssemblyCopyright("Copyright © Danila Korablin 2016-2025")]
 
 /*
 if $(ConfigurationName) == Release (
