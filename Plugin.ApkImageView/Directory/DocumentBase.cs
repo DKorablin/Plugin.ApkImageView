@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Forms;
 using AlphaOmega.Debug;
 using Plugin.ApkImageView.Bll;
@@ -48,7 +49,7 @@ namespace Plugin.ApkImageView.Directory
 			var info = this.GetFile();
 			if(info == null)
 			{
-				this.Plugin.Trace.TraceInformation("File {0} not found", this.FilePath);
+				this.Plugin.Trace.TraceEvent(TraceEventType.Information, 0,"File {0} not found", this.FilePath);
 				this.Window.Close();
 			}
 		}
@@ -106,7 +107,7 @@ namespace Plugin.ApkImageView.Directory
 				this.ShowFile(dex);
 				break;
 			default:
-				this.Plugin.Trace.TraceInformation("File {0} not supported", filePath);
+				this.Plugin.Trace.TraceEvent(TraceEventType.Information, 0, "File {0} not supported", filePath);
 				break;
 			}
 		}
