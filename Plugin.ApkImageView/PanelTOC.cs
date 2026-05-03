@@ -71,7 +71,7 @@ namespace Plugin.ApkImageView
 		private void ChangeTitle()
 			=> this.Window.Caption = tvToc.Nodes.Count > 0
 				? $"{PanelTOC.Caption} ({tvToc.Nodes.Count})"
-				: this.Window.Caption = PanelTOC.Caption;
+				: PanelTOC.Caption;
 
 		/// <summary>Поиск узла в дереве по пути к файлу</summary>
 		/// <param name="filePath">Путь к файлу</param>

@@ -16,18 +16,15 @@ namespace Plugin.ApkImageView
 {
 	public class PluginWindows : IPlugin, IPluginSettings<PluginSettings>
 	{
-		#region Fields
-		private TraceSource _trace;
 		private PluginSettings _settings;
 		private readonly Object _filesLock = new Object();
 		private DexStorage _binaries;
 		private ApkStorage _packages;
 		private ManifestStorage _manifests;
 		private Dictionary<String, DockState> _documentTypes;
-		#endregion Fields
 
 		#region Properties
-		internal TraceSource Trace => this._trace ?? (this._trace = PluginWindows.CreateTraceSource<PluginWindows>());
+		internal ITraceSource Trace { get; }
 
 		private IMenuItem MenuPeInfo { get; set; }
 		private IMenuItem MenuWinApi { get; set; }
@@ -123,8 +120,11 @@ namespace Plugin.ApkImageView
 		}
 		#endregion Properties
 
-		public PluginWindows(IHostWindows hostWindows)
-			=> this.HostWindows = hostWindows ?? throw new ArgumentNullException(nameof(hostWindows));
+		public PluginWindows(IHostWindows hostWindows, ITraceSource trace)
+		{
+			this.HostWindows = hostWindows ?? throw new ArgumentNullException(nameof(hostWindows));
+			this.Trace = trace ?? throw new ArgumentNullException(nameof(trace));
+		}
 
 		public IWindow GetPluginControl(String typeName, Object args)
 			=> this.CreateWindow(typeName, false, args);
@@ -402,14 +402,5 @@ namespace Plugin.ApkImageView
 			=> this.DocumentTypes.TryGetValue(typeName, out DockState state)
 				? this.HostWindows.Windows.CreateWindow(this, typeName, searchForOpened, state, args)
 				: null;
-
-		private static TraceSource CreateTraceSource<T>(String name = null) where T : IPlugin
-		{
-			TraceSource result = new TraceSource(typeof(T).Assembly.GetName().Name + name);
-			result.Switch.Level = SourceLevels.All;
-			result.Listeners.Remove("Default");
-			result.Listeners.AddRange(System.Diagnostics.Trace.Listeners);
-			return result;
-		}
 	}
 }
