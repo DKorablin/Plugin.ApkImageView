@@ -16,7 +16,7 @@ namespace Plugin.ApkImageView
 		private const String Caption = "Android Package View";
 		#region Properties
 
-		private PluginWindows Plugin => (PluginWindows)this.Window.Plugin;
+		private PluginWindows Plugin => (PluginWindows)this.Window.Plugin.Instance;
 
 		private IWindow Window => (IWindow)base.Parent;
 
